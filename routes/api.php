@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('customer', [CustomerController::class, 'showCustomers']);
+Route::post('customer', [CustomerController::class, 'saveCustomer']);
 
+Route::get('order/{id}', [OrderController::class, 'showOrderOfCustomer']);
+Route::post('order/{id}', [OrderController::class, 'saveOrderOfCustomer']);
