@@ -25,7 +25,9 @@ class CustomerController extends Controller
         $customer->title = $request->title;
         $customer->email = $request->email;
         $customer->address = $request->address;
-        $customer->save();
+        if(!$customer->save()){
+            return response()->json('Customer can not save', 400);
+        }
         return response()->json(['customer' => $customer]);
     }
 }

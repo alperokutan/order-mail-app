@@ -22,7 +22,9 @@ class OrderController extends Controller
         $order->description = $request->description;
         $order->total_price = $request->total_price;
         $order->customer_id = $id;
-        $order->save();
+        if(!$order->save()){
+            return response()->json('Order can not save', 400);
+        }
         return response()->json(['order' => $order]);
     }
 }
