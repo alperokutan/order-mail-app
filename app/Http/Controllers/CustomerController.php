@@ -17,7 +17,7 @@ class CustomerController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|email',
             'address' => 'required|string'
         ]);
 
