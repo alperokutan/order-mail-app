@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\OrderMailJob;
+use App\Mail\OrderMail;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -17,14 +20,6 @@ class OrderController extends Controller
 
     public function saveOrderOfCustomer(Request $request, $id)
     {
-        $order = new Order();
-        $order->name = $request->name;
-        $order->description = $request->description;
-        $order->total_price = $request->total_price;
-        $order->customer_id = $id;
-        if(!$order->save()){
-            return response()->json('Order can not save', 400);
-        }
-        return response()->json(['order' => $order]);
+        OrderMailJob::dispatch($request, $id)->onConnection('sqs');
     }
 }
